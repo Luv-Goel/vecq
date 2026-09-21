@@ -146,6 +146,10 @@ pytest -q
 
 19 tests cover the metrics, both indexes, persistence round-trip, metadata filtering, and the benchmark harness.
 
+## Continuous integration
+
+A GitHub Actions workflow is configured in `.github/workflows/ci.yml` that runs `pytest` on Linux, macOS and Windows across Python 3.10–3.13. It wasn't included in the initial push because the publishing token lacks the `workflow` scope; see [`docs/CI.md`](docs/CI.md) for the matrix and the two-step process to enable it.
+
 ## License
 
 MIT — see [`LICENSE`](LICENSE).
