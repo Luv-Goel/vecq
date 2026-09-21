@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vecq"
+version = "1.0.0"
+description = "Vector search engine from scratch — flat exact search, HNSW approximate search, multiple distance metrics, metadata filtering, and a benchmark harness in pure Python + NumPy."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Luv Goel", email = "luvgoel555@gmail.com" }]
+keywords = [
+    "vector-search",
+    "ann",
+    "hnsw",
+    "nearest-neighbours",
+    "embedding-search",
+    "retrieval",
+    "from-scratch",
+    "systems",
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Information Retrieval",
+    "Topic :: Database :: Database Engines/Servers",
+]
+dependencies = ["numpy>=1.23"]
+
+[project.optional-dependencies]
+bench = ["matplotlib>=3.6"]
+dev = ["pytest>=8", "matplotlib>=3.6"]
+
+[project.scripts]
+vecq = "vecq.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/Luv-Goel/vecq"
+Repository = "https://github.com/Luv-Goel/vecq"
+Issues = "https://github.com/Luv-Goel/vecq/issues"
+
+[tool.setuptools]
+packages = ["vecq"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"
+markers = [
+    "integration: takes longer than a second; skipped by default",
+]
