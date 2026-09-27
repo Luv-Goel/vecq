@@ -1,22 +1,69 @@
 site_name: vecq
 site_url: https://luv-goel.github.io/vecq/
+site_description: A vector search engine from scratch in pure Python + NumPy.
 repo_url: https://github.com/Luv-Goel/vecq
+repo_name: Luv-Goel/vecq
+
 theme:
   name: material
   palette:
-    scheme: slate
-    primary: blue
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
   features:
     - navigation.tabs
+    - navigation.sections
+    - navigation.top
     - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+
 plugins:
   - search
   - mkdocstrings:
       handlers:
         python:
           paths: [.]
+          options:
+            show_root_heading: true
+            show_source: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - admonition
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
 
 nav:
-  - Home: index.md
-  - Architecture: architecture.md
-  - API Reference: api.md
+  - Getting Started:
+    - Overview: index.md
+    - Usage Guide: usage.md
+  - Deep Dive:
+    - Architecture: architecture.md
+    - Benchmarks: benchmarks.md
+  - API Reference:
+    - Core Indexes: api.md
+    - Metrics & Utilities: api_metrics.md
+  - Development:
+    - Contributing: contributing.md

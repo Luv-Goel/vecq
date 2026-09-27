@@ -1,8 +1,22 @@
-# Welcome to vecq
+# vecq 🚀
 
-A vector search engine from scratch — **HNSW approximate search** and **brute-force exact search** with cosine, L2 and inner-product distance metrics, metadata filtering, persistence, and a benchmark harness. Pure Python + NumPy.
+> A vector search engine from scratch in pure Python + NumPy.
 
-![HNSW vs brute-force: recall vs throughput](../assets/recall_vs_qps.png)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/Luv-Goel/vecq/blob/main/LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/downloads/)
+[![Tests](https://img.shields.io/badge/tests-passing-brightgreen)](https://github.com/Luv-Goel/vecq/actions)
+
+**vecq** provides both **HNSW approximate search** and **brute-force exact search** with cosine, L2 and inner-product distance metrics, metadata filtering, persistence, and a built-in benchmark harness.
+
+## Why vecq?
+
+Approximate nearest-neighbour search underpins every modern retrieval system that touches embeddings — RAG pipelines, semantic search, recommendation engines, and image search. Hierarchical Navigable Small World (HNSW) is the algorithm behind most of them. 
+
+I wanted to know how it actually works, so I wrote it from scratch.
+
+vecq is a clean-room implementation you can read in one sitting. It's small enough to fit in your head, fast enough to use for prototyping (thanks to batched NumPy operations), and accurate enough to compare against production libraries on recall-vs-throughput tradeoffs.
+
+---
 
 ## Quickstart
 
@@ -10,27 +24,11 @@ A vector search engine from scratch — **HNSW approximate search** and **brute-
 git clone https://github.com/Luv-Goel/vecq
 cd vecq
 python -m pip install -e .
+```
 
+Run the built-in CLI demo to see it in action:
+```bash
 python -m vecq demo --n 1000 --dim 64 --k 5
-# -> prints a query and its 5 nearest neighbours by cosine distance
 ```
 
-Or use it as a library:
-
-```python
-import numpy as np
-from vecq import HNSW, HNSWConfig
-
-rng = np.random.default_rng(0)
-vectors = rng.standard_normal((10_000, 128)).astype(np.float64)
-vectors /= np.linalg.norm(vectors, axis=1, keepdims=True)
-
-index = HNSW(128, HNSWConfig(M=16, ef_construction=100, ef_search=50, metric="cosine"))
-index.extend(vectors)
-
-query = rng.standard_normal(128)
-query /= np.linalg.norm(query)
-distances, ids = index.search(query, k=10)
-print(list(zip(ids, distances)))
-index.save("my_index.pkl")
-```
+**Next up:** Head over to the [Usage Guide](usage.md) to see how to use vecq in your Python code!
