@@ -47,6 +47,24 @@ class FlatIndex:
         """Vectorised search for many queries at once."""
         return [_search(self.vectors, self.ids, q, k, METRICS[self.metric]) for q in queries]
 
+    def save(self, path: str) -> None:
+        import pickle
+        payload = {
+            "version": 1,
+            "vectors": self.vectors,
+            "ids": self.ids,
+            "metric": self.metric,
+        }
+        with open(path, "wb") as handle:
+            pickle.dump(payload, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+    @classmethod
+    def load(cls, path: str) -> "FlatIndex":
+        import pickle
+        with open(path, "rb") as handle:
+            payload = pickle.load(handle)
+        return cls(vectors=payload["vectors"], ids=payload["ids"], metric=payload["metric"])
+
 
 def _search(index: np.ndarray, ids: np.ndarray, query: np.ndarray, k: int, metric: Metric) -> Result:
     if len(index) == 0:

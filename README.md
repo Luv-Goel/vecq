@@ -58,10 +58,36 @@ vecq/
 │   ├── flat.py            brute-force exact baseline (vectorised)
 │   ├── hnsw.py            HNSW graph index
 │   └── bench.py           synthetic data + recall vs QPS harness
-├── tests/test_vecq.py     19 pytest cases
+├── tests/test_vecq.py     20 pytest cases
 ├── assets/                recall_vs_qps.png, build_time.png
 ├── pyproject.toml
 └── README.md
+```
+
+### Architecture Diagram
+
+```mermaid
+graph TD
+    subgraph HNSW [HNSW Index]
+        LayerN[Layer N: Sparse long jumps]
+        Layer1[Layer 1: Medium jumps]
+        Layer0[Layer 0: Dense base layer]
+        
+        LayerN --> Layer1
+        Layer1 --> Layer0
+    end
+    
+    subgraph Flat [Flat Index]
+        Vectors[Raw Vectors]
+        BruteForce[Brute-force Scan]
+        Vectors --> BruteForce
+    end
+    
+    Query --> HNSW
+    Query --> Flat
+    
+    HNSW --> Results[Top-K Results]
+    Flat --> Results
 ```
 
 ## CLI

@@ -76,6 +76,19 @@ class TestFlat:
         b = (np.array([0.5, 0.6, 0.7]), np.array([10, 20, 99]))
         assert recall_at_k(a, b, 3) == pytest.approx(2 / 3)
 
+    def test_save_and_load_round_trip(self, tmp_path):
+        vectors = np.array([[1.0, 2.0], [3.0, 4.0]])
+        ids = np.array([10, 20])
+        index = FlatIndex.build(vectors, ids, metric="l2")
+        path = tmp_path / "flat_index.pkl"
+        index.save(str(path))
+        
+        restored = FlatIndex.load(str(path))
+        assert len(restored) == 2
+        assert restored.dim == 2
+        assert restored.metric == "l2"
+        np.testing.assert_array_equal(restored.vectors, vectors)
+        np.testing.assert_array_equal(restored.ids, ids)
 
 class TestHNSW:
     def _build_small(self, n: int = 200, dim: int = 16, seed: int = 0) -> tuple[HNSW, np.ndarray]:

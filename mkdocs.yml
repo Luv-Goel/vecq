@@ -1,0 +1,22 @@
+site_name: vecq
+site_url: https://luv-goel.github.io/vecq/
+repo_url: https://github.com/Luv-Goel/vecq
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: blue
+  features:
+    - navigation.tabs
+    - content.code.copy
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [.]
+
+nav:
+  - Home: index.md
+  - Architecture: architecture.md
+  - API Reference: api.md
